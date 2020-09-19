@@ -20,13 +20,13 @@ spec:
          env:
          - name: SQLITE_DATABASE
            value: "db_filename.db"
-           volumeMounts:
-           - mountPath: /data
-             name: sql-volume
-             port:
-             - containerPort: {{ .Values.service.port }}
-        volumes:
-        - name: sql-volume
-          hostPath:
-             path: /opt/oracle
+         volumeMounts:
+         - mountPath: /data
+           name: sql-volume
+         ports:
+         - containerPort: {{ .Values.service.port }}
+       volumes:
+       - name: sql-volume
+         hostPath:
+            path: /opt/oracle
 
