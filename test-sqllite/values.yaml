@@ -1,0 +1,21 @@
+# Default values for test-sqllite.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+deployment:
+  name: sqlite-py-deploy
+
+image:
+  name: sqlite
+  repository: py-sqlite
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+   name: sqlite-svc
+   port: 31111
+   type: LoadBalancer
+

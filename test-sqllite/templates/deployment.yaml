@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ .Values.deployment.name }}
+    labels:
+      app: database
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+     matchLabels:
+        app: database
+  template:
+     metadata:
+       labels:
+          app: database
+     spec:
+       containers:
+       - name: {{ .Values.image.name }}
+         image: {{ .Values.image.repository }}
+         env:
+         - name: SQLITE_DATABASE
+           value: "db_filename.db"
+           volumeMounts:
+           - mountPath: /data
+             name: sql-volume
+             port:
+             - containerPort: {{ .Values.service.port }}
+        volumes:
+        - name: sql-volume
+          hostPath:
+             path: /opt/oracle
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: {{ .Values.service.name }}
+spec:
+   ports:
+   - port: {{ .Values.service.port }}
+   selector:
+     app: database
+   type: {{ .Values.service.type }}
+
+
+
